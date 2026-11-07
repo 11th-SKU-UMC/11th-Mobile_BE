@@ -1,0 +1,10 @@
+Two real concurrent POST /members requests; both prechecks passed.
+REQUEST {"email":"first@example.com","password":"Race!1234","nickname":"same"}
+HTTP 201
+{"isSuccess":true,"code":"COMMON201","message":"회원가입에 성공했습니다.","result":{"memberId":3,"email":"first@example.com","nickname":"same"}}
+
+REQUEST {"email":"second@example.com","password":"Race!1234","nickname":"same"}
+HTTP 409
+{"isSuccess":false,"code":"MEMBER4092","message":"이미 사용 중인 닉네임입니다.","result":null}
+
+Persisted member count: 1

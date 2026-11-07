@@ -1,4 +1,12 @@
 # 🤖 11th-Mobile_BE
+
+## 6주차 백엔드 미션 — Spring Boot
+
+- [실행 방법 및 구현 내용](movie/README.md)
+- [API 명세](movie/docs/api-spec.md)
+- [미션 기록 · 핵심 코드 · 캡처](movie/docs/mission-record.md)
+- [요청/응답 캡처 폴더](movie/docs/evidence)
+
 > 11th 서경대 **UMC PE-Mobile 파트 백엔드 Repository** 입니다.  
 
 <p>

@@ -7,3 +7,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+# Isolated test fixture only; production always requires JWT_SECRET.
+jwt:
+  secret: week07-test-only-signing-key-not-for-real-accounts
+  access-expiration: 3600
+  clock-skew: 0

@@ -6,6 +6,9 @@ import com.umc.movie.dto.NicknameCheckResponse;
 import com.umc.movie.dto.ApiResponse;
 import com.umc.movie.dto.MemberResponse;
 import com.umc.movie.dto.SignUpRequest;
+import com.umc.movie.dto.MemberInfoResponse;
+import com.umc.movie.dto.MemberUpdateRequest;
+import com.umc.movie.auth.LoginMember;
 import com.umc.movie.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
@@ -18,6 +21,17 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> getMyInfo(@LoginMember Long memberId) {
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 조회했습니다.", memberService.getMyInfo(memberId)));
+    }
+
+    @PatchMapping("/me")
+    public ResponseEntity<ApiResponse<MemberInfoResponse>> updateMyInfo(
+            @LoginMember Long memberId, @Valid @RequestBody MemberUpdateRequest request) {
+        return ResponseEntity.ok(ApiResponse.ok("회원 정보를 수정했습니다.", memberService.updateMyInfo(memberId, request)));
+    }
 
     @PostMapping
     public ResponseEntity<ApiResponse<MemberResponse>> signUp(@Valid @RequestBody SignUpRequest request) {

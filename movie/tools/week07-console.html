@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 07 · JWT 인증 미션 실행 기록</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f1f5f9;color:#172033;font:15px/1.55 system-ui,'Malgun Gothic',sans-serif}main{max-width:1240px;margin:30px auto;padding:0 24px}h1{font-size:27px;margin:0}p{color:#536176;margin:8px 0 20px}.bar{display:flex;gap:12px;align-items:center;margin-bottom:20px}button,select{font:inherit;padding:10px 14px;border-radius:8px;border:1px solid #cbd5e1;background:white}button{color:#2457ce;cursor:pointer}select{flex:1;min-width:0}.meta{display:flex;align-items:center;gap:12px;margin-bottom:16px}#status{font-weight:bold;padding:6px 12px;border-radius:6px;background:#dcfce7;color:#166534}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{background:white;border:1px solid #dce3ed;border-radius:12px;overflow:hidden}.panel h2{font-size:15px;padding:12px 18px;background:#f8fafc;margin:0;border-bottom:1px solid #dce3ed}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.65 Consolas,'Malgun Gothic',monospace;margin:0;padding:20px;min-height:290px}#detail{color:#536176;font-size:13px;margin:16px 0}#summary{font-size:14px}.notice{border-left:3px solid #2457ce;padding-left:12px}.expiry h2{font-size:18px}[hidden]{display:none!important}@media(max-width:700px){.grid{grid-template-columns:1fr}main{margin:20px auto}}
+</style>
+<main>
+<h1>Week 07 · JWT 인증과 평점 소유권</h1>
+<p>Postman 컬렉션 → Newman 실행 → 실제 HTTP 요청·응답 기록 · JWT 값 제거 · H2 임시 DB</p>
+<div class="bar"><select id="cases" aria-label="실행 결과 선택"></select><button id="expiry">만료 전·후 비교</button><button id="reload">기록 다시 읽기</button></div>
+<div class="meta"><span id="status">읽는 중</span><strong id="title"></strong></div>
+<div id="single" class="grid"><section class="panel"><h2>REQUEST</h2><pre id="request"></pre></section><section class="panel"><h2>RESPONSE</h2><pre id="response"></pre></section></div>
+<div id="expiry-view" class="expiry" hidden><h2>같은 토큰 · JWT_ACCESS_EXPIRATION=60 · JWT_CLOCK_SKEW=0</h2><div class="grid"><section class="panel"><h2>만료 전 · HTTP 200</h2><pre id="before"></pre></section><section class="panel"><h2>62초 후 · HTTP 401 / AUTH401_4</h2><pre id="after"></pre></section></div></div>
+<div id="detail"></div><div id="summary"></div>
+<p class="notice">이 화면은 Postman 데스크톱 앱이 아닌 Newman 실행 기록 뷰어입니다. 실제 JSON 보고서에서 읽으며 공개 기록의 JWT는 제거했습니다. 상태·응답 필드·시각·검증 결과는 실제 실행값입니다.</p>
+</main>
+<script type="module">
+const $ = s => document.querySelector(s);
+const pretty = value => JSON.stringify(value, null, 2);
+let report, records;
+const responseText = item => new TextDecoder().decode(Uint8Array.from(item.response.stream.data));
+const url = item => typeof item.request.url === 'string' ? item.request.url : `${item.request.url.protocol}://${item.request.url.host.join('.')}${item.request.url.port ? ':' + item.request.url.port : ''}/${item.request.url.path.join('/')}`;
+const headers = item => item.request.header.filter(h => ['authorization','content-type'].includes(h.key.toLowerCase()) && !h.disabled).map(h => `${h.key}: ${h.value}`).join('\n');
+const date = item => item.response.header.find(h => h.key.toLowerCase() === 'date')?.value || '';
+function show(index) {
+  const item = records[index]; if (!item?.response) return;
+  $('#single').hidden = false; $('#expiry-view').hidden = true;
+  const passed = item.assertions.every(a => !a.error);
+  $('#title').textContent = item.item.name;
+  $('#status').textContent = `HTTP ${item.response.code} · ${passed ? 'PASS' : 'FAIL'}`;
+  $('#request').textContent = `${item.request.method} ${url(item)}\n${headers(item) || '(Authorization 헤더 없음)'}\n\n${item.request.body?.raw || '(요청 바디 없음)'}`;
+  $('#response').textContent = `HTTP ${item.response.code} ${item.response.status}\n\n${pretty(JSON.parse(responseText(item)))}`;
+  $('#detail').textContent = `서버 응답 시각: ${date(item)} · 응답 시간: ${item.response.responseTime} ms · 검증 ${item.assertions.length}개 ${passed ? '통과' : '실패'}`;
+}
+async function load() {
+  const response = await fetch('/week07-report');
+  if (!response.ok) throw new Error('Newman JSON 보고서를 먼저 생성해주세요.');
+  report = await response.json(); records = report.run.executions;
+  $('#cases').replaceChildren(...records.map((item,index) => {const option=document.createElement('option');option.value=index;option.textContent=item.item.name;return option;}));
+  const stats = report.run.stats;
+  $('#summary').textContent = `전체 실행: ${stats.requests.total}개 요청 · ${stats.assertions.total}개 검증 · 실패 ${report.run.failures.length}개 · 시작 ${new Date(report.run.timings.started).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})}`;
+  const index = Number(new URLSearchParams(location.search).get('case') ?? 2);
+  $('#cases').value = String(index); show(index);
+  if (new URLSearchParams(location.search).has('expiry')) showExpiry();
+}
+function showExpiry() {
+  const before = records.find(r => r.item.name.startsWith('선택 03'));
+  const after = records.find(r => r.item.name.startsWith('선택 04'));
+  if (!before || !after) return;
+  $('#single').hidden = true; $('#expiry-view').hidden = false;
+  $('#title').textContent = '선택 미션 1 · 토큰 만료를 직접 겪어보기';
+  $('#status').textContent = '200 → 401 · PASS';
+  $('#before').textContent = `${before.request.method} ${url(before)}\n${date(before)}\n\n${pretty(JSON.parse(responseText(before)))}`;
+  $('#after').textContent = `${after.request.method} ${url(after)}\n${date(after)}\n\n${pretty(JSON.parse(responseText(after)))}`;
+  $('#detail').textContent = '동일 토큰 여부는 공개 전 로컬 원본에서 검증 · 새 토큰 발급 없이 62초 대기 후 재요청 · 공개 파일의 토큰 값은 제거됨';
+}
+$('#cases').addEventListener('change',()=>show(Number($('#cases').value)));
+$('#expiry').addEventListener('click',showExpiry);
+$('#reload').addEventListener('click',()=>load().catch(e=>$('#title').textContent=e.message));
+load().catch(e=>$('#title').textContent=e.message);
+</script>
+</html>

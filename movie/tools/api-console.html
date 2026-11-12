@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Week 06 · 영화 평점 API 검증</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f1f5f9;color:#172033;font:15px/1.55 system-ui,'Malgun Gothic',sans-serif}main{max-width:1120px;margin:36px auto;padding:0 24px}h1{font-size:28px;margin:0}p{color:#536176;margin:8px 0 22px}.bar{display:flex;gap:12px;align-items:center;margin-bottom:22px}button,select{font:inherit;padding:10px 14px;border-radius:8px;border:1px solid #cbd5e1;background:white}button{background:#2457ce;color:white;cursor:pointer;border:0}button:disabled{opacity:.5}select{flex:1;min-width:0}.meta{display:flex;align-items:center;gap:12px;margin-bottom:16px}#status{font-weight:bold;padding:6px 12px;border-radius:6px;background:#e0e7ff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{background:white;border:1px solid #dce3ed;border-radius:12px;overflow:hidden}.panel h2{font-size:15px;padding:12px 18px;background:#f8fafc;margin:0;border-bottom:1px solid #dce3ed}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:15px/1.65 Consolas,'Malgun Gothic',monospace;margin:0;padding:20px;min-height:270px}#summary{font-size:14px}#detail{color:#536176;font-size:13px;margin:14px 0}.ok{color:#147744}.bad{color:#ba2635}@media(max-width:700px){.grid{grid-template-columns:1fr}main{margin:20px auto}}
+</style>
+<main>
+<h1>Week 06 · 영화 평점 API 검증</h1>
+<p>Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)</p>
+<div class="bar"><button id="run">전체 시나리오 실행</button><select id="cases" aria-label="검증 결과 선택"><option>실행 후 결과를 선택하세요</option></select></div>
+<div class="meta"><span id="status">대기</span><strong id="title">회원가입 · 입력 검증 · 평점 CRUD · 소유권 확인</strong></div>
+<div class="grid"><section class="panel"><h2>REQUEST</h2><pre id="request">서버: http://localhost:8080
+실행: gradlew bootRun --args='--spring.profiles.active=local'
+
+이 페이지는 테스트용 회원과 평점을 생성·수정·삭제합니다.</pre></section><section class="panel"><h2>RESPONSE</h2><pre id="response">전체 시나리오 실행 버튼을 누르세요.</pre></section></div>
+<div id="detail"></div><div id="summary"></div>
+</main>
+<script type="module">
+const base = 'http://localhost:8080';
+const select = document.querySelector('#cases');
+let records = [];
+const pretty = value => JSON.stringify(value, null, 2);
+function show(index) {
+  const item = records[index]; if (!item) return;
+  document.querySelector('#title').textContent = item.title;
+  document.querySelector('#status').textContent = item.status ? `HTTP ${item.status} · ${item.ok ? 'PASS' : 'FAIL'}` : 'DB UNIQUE · PASS';
+  document.querySelector('#request').textContent = item.request;
+  document.querySelector('#response').textContent = item.response;
+  document.querySelector('#detail').textContent = item.detail || `실제 응답 수신: ${item.time} · 기대 상태: ${item.expected}`;
+}
+select.addEventListener('change', () => show(Number(select.value)));
+async function call(title, method, path, body, expected, expectedCode) {
+  const response = await fetch(base + path, {method, headers: body ? {'Content-Type':'application/json'} : {}, ...(body ? {body:pretty(body)} : {})});
+  const raw = await response.text();
+  const json = raw ? JSON.parse(raw) : null;
+  const ok = response.status === expected && (!expectedCode || json?.code === expectedCode);
+  records.push({title, status:response.status, expected, ok,
+    request:`${method} ${base}${path}\n${body ? 'Content-Type: application/json\n\n' + pretty(body) : ''}`,
+    response:raw ? pretty(json) : '(응답 본문 없음)',
+    time:new Date().toLocaleString('ko-KR', {timeZone:'Asia/Seoul'})});
+  if (!ok) throw new Error(`${title}: 기대 ${expected}/${expectedCode || ''}, 실제 ${response.status}`);
+  return json;
+}
+document.querySelector('#run').addEventListener('click', async event => {
+  event.target.disabled = true; records = [];
+  document.querySelector('#summary').textContent = '검증 중…';
+  try {
+    const suffix = Date.now().toString().slice(-8);
+    const email = `mission${suffix}@example.com`, nickname = `m${suffix}`;
+    const member = await call('01 회원가입 성공 / password 미포함', 'POST', '/members', {email,password:'Umc!1234',nickname}, 201, 'COMMON201');
+    const id = member.result.memberId;
+    await call('02 이메일 형식 검증 실패', 'POST', '/members', {email:'invalid',password:'Umc!1234',nickname:'validnick'}, 400, 'COMMON4001');
+    await call('03 이메일 중복', 'POST', '/members', {email,password:'Umc!1234',nickname:`n${suffix}`}, 409, 'MEMBER4091');
+    await call('04 닉네임 중복', 'POST', '/members', {email:`other${suffix}@example.com`,password:'Umc!1234',nickname}, 409, 'MEMBER4092');
+    const created = await call('05 평점 등록 성공', 'POST', `/members/${id}/ratings`, {movieId:550,score:5,comment:'다시 보고 싶은 영화입니다.'}, 201, 'COMMON201');
+    const rid = created.result;
+    await call('06 별점 범위 검증 실패', 'POST', `/members/${id}/ratings`, {movieId:155,score:6}, 400, 'COMMON4001');
+    await call('07 중복 평점 차단', 'POST', `/members/${id}/ratings`, {movieId:550,score:3}, 409, 'RATING4091');
+    const other = await call('08 다른 회원 생성', 'POST', '/members', {email:`second${suffix}@example.com`,password:'Umc!1234',nickname:`s${suffix}`}, 201, 'COMMON201');
+    const oid = other.result.memberId;
+    await call('09 다른 회원의 평점 수정 차단', 'PATCH', `/members/${oid}/ratings/${rid}`, {score:1}, 403, 'RATING4031');
+    await call('10 다른 회원의 평점 삭제 차단', 'DELETE', `/members/${oid}/ratings/${rid}`, null, 403, 'RATING4031');
+    await call('11 없는 평점 수정', 'PATCH', `/members/${id}/ratings/999999`, {score:1}, 404, 'RATING4041');
+    await call('12 없는 평점 삭제', 'DELETE', `/members/${id}/ratings/999999`, null, 404, 'RATING4041');
+    await call('13 평점 수정 성공', 'PATCH', `/members/${id}/ratings/${rid}`, {score:4,comment:'수정한 후기입니다.'}, 200, 'COMMON200');
+    await call('14 수정 결과 조회', 'GET', `/members/${id}/ratings`, null, 200);
+    await call('15 평점 삭제 / 204 빈 본문', 'DELETE', `/members/${id}/ratings/${rid}`, null, 204);
+    await call('16 삭제 후 빈 목록 확인', 'GET', `/members/${id}/ratings`, null, 200);
+    for (const [kind, title] of [['email','17 DB UNIQUE 이메일 동시 요청'],['nickname','18 DB UNIQUE 닉네임 동시 요청']]) {
+      const response = await fetch(`/db-${kind}`);
+      if (response.ok) records.push({title, ok:true, request:'실제 동시 POST /members 요청 2개\n\n중복 조회를 통과한 두 요청을 비밀번호 해시 직전 CyclicBarrier에서 동기화했습니다.\n조회와 INSERT는 실제 H2 DB를 사용합니다.', response:await response.text(), detail:'출처: UniqueConstraintIntegrationTests 실행 결과 · 서버의 실제 DB 제약 위반을 전역 핸들러가 409로 변환'});
+    }
+    document.querySelector('#summary').textContent = `${records.length}개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409`;
+  } catch (error) { document.querySelector('#summary').textContent = `실패: ${error.message}`; }
+  finally {
+    select.replaceChildren(...records.map((item,index) => {const option=document.createElement('option');option.value=index;option.textContent=`${item.ok ? '✓' : '✕'} ${item.title}`;return option;}));
+    show(0); event.target.disabled=false;
+  }
+});
+</script>
+</html>

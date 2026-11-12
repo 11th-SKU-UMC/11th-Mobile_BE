@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:movie-test;MODE=MySQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+# Isolated test fixture only; production always requires JWT_SECRET.
+jwt:
+  secret: week07-test-only-signing-key-not-for-real-accounts
+  access-expiration: 3600
+  clock-skew: 0

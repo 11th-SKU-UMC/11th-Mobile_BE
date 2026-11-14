@@ -1,0 +1,75 @@
+<!-- mock-frontend/index.html -->
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <title>간이 프론트</title>
+    <style>
+      body { font-family: sans-serif; max-width: 640px; margin: 32px auto; padding: 0 16px; }
+      section { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+      h2 { font-size: 18px; margin: 0 0 12px; }
+      input { padding: 6px 8px; width: 220px; }
+      button { padding: 6px 12px; cursor: pointer; }
+      pre { background: #f6f6f6; padding: 10px; border-radius: 6px; white-space: pre-wrap; min-height: 20px; }
+    </style>
+  </head>
+  <body>
+    <h1>간이 프론트 : 회원 API 테스트</h1>
+
+    <!-- 1. 닉네임 중복 체크 -->
+    <section>
+      <h2>1. 닉네임 중복 체크</h2>
+      <input id="nickname" value="수현" placeholder="닉네임 입력">
+      <button onclick="checkNickname()">중복 체크</button>
+      <pre id="nicknameResult"></pre>
+    </section>
+
+    <!-- 2. 이메일 중복 체크 -->
+    <section>
+      <h2>2. 이메일 중복 체크</h2>
+      <input id="email" value="noco@umc.com" placeholder="이메일 입력">
+      <button onclick="checkEmail()">중복 체크</button>
+      <pre id="emailResult"></pre>
+    </section>
+
+    <!-- 3. 회원별 평점 조회 -->
+    <section>
+      <h2>3. 회원별 평점 조회</h2>
+      <input id="memberId" value="1" placeholder="회원 ID 입력">
+      <button onclick="getRatings()">평점 조회</button>
+      <pre id="ratingsResult"></pre>
+    </section>
+
+    <script>
+      // Spring 서버 주소
+      const BASE_URL = "http://localhost:8080";
+
+      async function callApi(path, resultId) {
+        const box = document.getElementById(resultId);
+        box.innerText = "요청 중...";
+        try {
+          const res = await fetch(BASE_URL + path);
+          const data = await res.json();
+          box.innerText = `[${res.status}]\n` + JSON.stringify(data, null, 2);
+        } catch (e) {
+          box.innerText = "에러: " + e.message + " (Console 탭 확인)";
+        }
+      }
+
+      function checkNickname() {
+        const nickname = document.getElementById("nickname").value;
+        callApi("/members/nickname/" + encodeURIComponent(nickname), "nicknameResult");
+      }
+
+      function checkEmail() {
+        const email = document.getElementById("email").value;
+        callApi("/members/email/" + encodeURIComponent(email), "emailResult");
+      }
+
+      function getRatings() {
+        const memberId = document.getElementById("memberId").value;
+        callApi("/members/" + memberId + "/ratings", "ratingsResult");
+      }
+    </script>
+  </body>
+</html>

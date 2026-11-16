@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Movie API Mock Frontend</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 720px; margin: 32px auto; padding: 0 16px; color: #222; }
+    h1 { font-size: 1.4rem; }
+    section { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    h2 { font-size: 1rem; margin: 0 0 8px; }
+    .row { display: flex; gap: 8px; }
+    input { flex: 1; padding: 6px 8px; font-size: 0.95rem; }
+    button { padding: 6px 12px; font-size: 0.95rem; cursor: pointer; }
+    pre { background: #f6f6f6; padding: 12px; border-radius: 6px; white-space: pre-wrap; word-break: break-all; min-height: 1.2em; }
+    pre.error { background: #fdecec; color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>🎬 영화 평점 서비스 - Mock Frontend</h1>
+  <p>API 서버: <code id="base-url"></code></p>
+
+  <section>
+    <h2>닉네임 중복 체크 · GET /members/nickname/{nickname}</h2>
+    <div class="row">
+      <input id="nickname" value="수현" />
+      <button id="btn-nickname">닉네임 중복 체크</button>
+    </div>
+    <pre id="result-nickname"></pre>
+  </section>
+
+  <section>
+    <h2>이메일 중복 체크 · GET /members/email/{email}</h2>
+    <div class="row">
+      <input id="email" value="noco@umc.com" />
+      <button id="btn-email">이메일 중복 체크</button>
+    </div>
+    <pre id="result-email"></pre>
+  </section>
+
+  <section>
+    <h2>유저별 평점 조회 · GET /members/{memberId}/ratings</h2>
+    <div class="row">
+      <input id="member-id" type="number" value="1" />
+      <button id="btn-ratings">유저별 평점 조회</button>
+    </div>
+    <pre id="result-ratings"></pre>
+  </section>
+
+  <script>
+    const BASE_URL = "http://localhost:8080";
+    document.getElementById("base-url").textContent = BASE_URL;
+
+    async function callApi(path, resultId) {
+      const result = document.getElementById(resultId);
+      result.classList.remove("error");
+      result.textContent = "요청 중...";
+
+      try {
+        const response = await fetch(BASE_URL + path);
+        const body = await response.json();
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}\n` + JSON.stringify(body, null, 2));
+        }
+        result.textContent = JSON.stringify(body, null, 2);
+      } catch (error) {
+        // CORS 차단 시 fetch 자체가 TypeError("Failed to fetch")로 실패합니다.
+        console.error(`[${path}]`, error);
+        result.classList.add("error");
+        result.textContent = String(error.message ?? error);
+      }
+    }
+
+    document.getElementById("btn-nickname").addEventListener("click", () => {
+      const nickname = document.getElementById("nickname").value.trim();
+      callApi(`/members/nickname/${encodeURIComponent(nickname)}`, "result-nickname");
+    });
+
+    document.getElementById("btn-email").addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      callApi(`/members/email/${encodeURIComponent(email)}`, "result-email");
+    });
+
+    document.getElementById("btn-ratings").addEventListener("click", () => {
+      const memberId = document.getElementById("member-id").value.trim();
+      callApi(`/members/${encodeURIComponent(memberId)}/ratings`, "result-ratings");
+    });
+  </script>
+</body>
+</html>

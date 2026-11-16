@@ -1,0 +1,6 @@
+
+name                                           tests failures errors
+----                                           ----- -------- ------
+com.umc.movie.MissionApiIntegrationTests       28    0        0
+com.umc.movie.MovieApplicationTests            1     0        0
+com.umc.movie.UniqueConstraintIntegrationTests 3     0        0

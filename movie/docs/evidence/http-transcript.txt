@@ -1,0 +1,565 @@
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 34-38
++		40 text HTTP 201 · PASS
++		41 text 01 회원가입 성공 / password 미포함
++		42 text POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "mission18898894@example.com",
+  "password": "Umc!1234",
+  "nickname": "m18898894"
+}
++		43 text {
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "회원가입에 성공했습니다.",
+  "result": {
+    "memberId": 1,
+    "email": "mission18898894@example.com",
+    "nickname": "m18898894"
+  }
+}
++		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 201
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 02 이메일 형식 검증 실패, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 (selected) ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 400 · PASS
+		41 text 02 이메일 형식 검증 실패
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "invalid",
+  "password": "Umc!1234",
+  "nickname": "validnick"
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": false,
+  "code": "COMMON4001",
+  "message": "올바른 이메일 형식이 아닙니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 400
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 03 이메일 중복, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 (selected) ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 409 · PASS
+		41 text 03 이메일 중복
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "mission18898894@example.com",
+  "password": "Umc!1234",
+  "nickname": "n18898894"
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": false,
+  "code": "MEMBER4091",
+  "message": "이미 사용 중인 이메일입니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 409
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 04 닉네임 중복, ID: cases, Secondary Actions: Expand
+~				18 ✓ 03 이메일 중복
+~				19 (selected) ✓ 04 닉네임 중복
+~		41 text 04 닉네임 중복
+~		42 text POST http://localhost:8080/members
+Content-Type: application/json
+
+{
+  "email": "other18898894@example.com",
+  "password": "Umc!1234",
+  "nickname": "m18898894"
+}
+~		43 text {
+  "isSuccess": false,
+  "code": "MEMBER4092",
+  "message": "이미 사용 중인 닉네임입니다.",
+  "result": null
+}
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 05 평점 등록 성공, ID: cases, Secondary Actions: Expand
+~				19 ✓ 04 닉네임 중복
+~				20 (selected) ✓ 05 평점 등록 성공
+~		40 text HTTP 201 · PASS
+~		41 text 05 평점 등록 성공
+~		42 text POST http://localhost:8080/members/1/ratings
+Content-Type: application/json
+
+{
+  "movieId": 550,
+  "score": 5,
+  "comment": "다시 보고 싶은 영화입니다."
+}
+~		43 text {
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "평점 등록에 성공했습니다.",
+  "result": 1
+}
+~		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 201
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 06 별점 범위 검증 실패, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 (selected) ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 400 · PASS
+		41 text 06 별점 범위 검증 실패
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text POST http://localhost:8080/members/1/ratings
+Content-Type: application/json
+
+{
+  "movieId": 155,
+  "score": 6
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": false,
+  "code": "COMMON4001",
+  "message": "별점은 5점 이하여야 합니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 400
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 07 중복 평점 차단, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 (selected) ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 409 · PASS
+		41 text 07 중복 평점 차단
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text POST http://localhost:8080/members/1/ratings
+Content-Type: application/json
+
+{
+  "movieId": 550,
+  "score": 3
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": false,
+  "code": "RATING4091",
+  "message": "이미 이 영화에 평점을 남기셨습니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 409
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 09 다른 회원의 평점 수정 차단, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 (selected) ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 403 · PASS
+		41 text 09 다른 회원의 평점 수정 차단
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text PATCH http://localhost:8080/members/2/ratings/1
+Content-Type: application/json
+
+{
+  "score": 1
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": false,
+  "code": "RATING4031",
+  "message": "본인이 작성한 평점만 수정하거나 삭제할 수 있습니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 403
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 11 없는 평점 수정, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 (selected) ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 404 · PASS
+		41 text 11 없는 평점 수정
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text PATCH http://localhost:8080/members/1/ratings/999999
+Content-Type: application/json
+
+{
+  "score": 1
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": false,
+  "code": "RATING4041",
+  "message": "존재하지 않는 평점입니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 404
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 13 평점 수정 성공, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 (selected) ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 200 · PASS
+		41 text 13 평점 수정 성공
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text PATCH http://localhost:8080/members/1/ratings/1
+Content-Type: application/json
+
+{
+  "score": 4,
+  "comment": "수정한 후기입니다."
+}
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text {
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "평점 수정에 성공했습니다.",
+  "result": null
+}
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 200
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 15 평점 삭제 / 204 빈 본문, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 (selected) ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text HTTP 204 · PASS
+		41 text 15 평점 삭제 / 204 빈 본문
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text DELETE http://localhost:8080/members/1/ratings/1
+
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text (응답 본문 없음)
+		44 text 실제 응답 수신: 2026. 11. 7. 오전 11:35:00 · 기대 상태: 204
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+	1 container
+		2 heading Week 06 · 영화 평점 API 검증, Value: 1
+			3 text Week 06 · 영화 평점 API 검증
+		4 text Spring Boot · 실제 HTTP 요청/응답 · H2 메모리 DB (local 프로필)
+		5 button 전체 시나리오 실행, ID: run
+		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 17 DB UNIQUE 이메일 동시 요청, ID: cases, Secondary Actions: Expand
+			7 menu
+				16 ✓ 01 회원가입 성공 / password 미포함
+				17 ✓ 02 이메일 형식 검증 실패
+				18 ✓ 03 이메일 중복
+				19 ✓ 04 닉네임 중복
+				20 ✓ 05 평점 등록 성공
+				21 ✓ 06 별점 범위 검증 실패
+				22 ✓ 07 중복 평점 차단
+				23 ✓ 08 다른 회원 생성
+				24 ✓ 09 다른 회원의 평점 수정 차단
+				25 ✓ 10 다른 회원의 평점 삭제 차단
+				26 ✓ 11 없는 평점 수정
+				27 ✓ 12 없는 평점 삭제
+				28 ✓ 13 평점 수정 성공
+				29 ✓ 14 수정 결과 조회
+				30 ✓ 15 평점 삭제 / 204 빈 본문
+				31 ✓ 16 삭제 후 빈 목록 확인
+				32 (selected) ✓ 17 DB UNIQUE 이메일 동시 요청
+				33 ✓ 18 DB UNIQUE 닉네임 동시 요청
+		40 text DB UNIQUE · PASS
+		41 text 17 DB UNIQUE 이메일 동시 요청
+		11 heading REQUEST, Value: 2
+			12 text REQUEST
+		42 text 실제 동시 POST /members 요청 2개
+
+중복 조회를 통과한 두 요청을 비밀번호 해시 직전 CyclicBarrier에서 동기화했습니다.
+조회와 INSERT는 실제 H2 DB를 사용합니다.
+		14 heading RESPONSE, Value: 2
+			15 text RESPONSE
+		43 text Two real concurrent POST /members requests; both prechecks passed.
+REQUEST {"email":"same@example.com","password":"Race!1234","nickname":"first"}
+HTTP 201
+{"isSuccess":true,"code":"COMMON201","message":"회원가입에 성공했습니다.","result":{"memberId":1,"email":"same@example.com","nickname":"first"}}
+
+REQUEST {"email":"same@example.com","password":"Race!1234","nickname":"second"}
+HTTP 409
+{"isSuccess":false,"code":"MEMBER4091","message":"이미 사용 중인 이메일입니다.","result":null}
+
+Persisted member count: 1
+
+		44 text 출처: UniqueConstraintIntegrationTests 실행 결과 · 서버의 실제 DB 제약 위반을 전역 핸들러가 409로 변환
+		39 text 18개 결과 확인 · HTTP 201 / 200 / 204 / 400 / 403 / 404 / 409
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/
+
+---
+
+Browser tab: 2, Title: "Week 06 · 영화 평점 API 검증", URL: "http://localhost:5173/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~		6 pop up button (collapsed, settable) Description: 검증 결과 선택, Value: ✓ 18 DB UNIQUE 닉네임 동시 요청, ID: cases, Secondary Actions: Expand
+~				32 ✓ 17 DB UNIQUE 이메일 동시 요청
+~				33 (selected) ✓ 18 DB UNIQUE 닉네임 동시 요청
+~		41 text 18 DB UNIQUE 닉네임 동시 요청
+~		43 text Two real concurrent POST /members requests; both prechecks passed.
+REQUEST {"email":"first@example.com","password":"Race!1234","nickname":"same"}
+HTTP 201
+{"isSuccess":true,"code":"COMMON201","message":"회원가입에 성공했습니다.","result":{"memberId":3,"email":"first@example.com","nickname":"same"}}
+
+REQUEST {"email":"second@example.com","password":"Race!1234","nickname":"same"}
+HTTP 409
+{"isSuccess":false,"code":"MEMBER4092","message":"이미 사용 중인 닉네임입니다.","result":null}
+
+Persisted member count: 1
+
+The focused UI element is 0 AXWebArea Week 06 · 영화 평점 API 검증, URL: localhost:5173/

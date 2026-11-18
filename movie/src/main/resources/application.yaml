@@ -11,3 +11,8 @@ spring:
     deserialization:
       accept-float-as-int: false
       fail-on-unknown-properties: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration: ${JWT_ACCESS_EXPIRATION:3600}
+  clock-skew: ${JWT_CLOCK_SKEW:0}

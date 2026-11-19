@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c49d0495-aa35-43b2-9f5c-d3b400eb12d8" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/../../mock-frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../mock-frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../week04/src/main/java/com/umc/study/Entity/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/../week04/src/main/java/com/umc/study/Entity/Book.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../week05/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../week05/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/MemberInfoResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/MemberInfoResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/MemberUpdateRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/dto/MemberUpdateRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/exception/ApiException.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/exception/ApiException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/interceptor/AuthInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/interceptor/AuthInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/util/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/movie/src/main/java/com/umc/movie/util/JwtUtil.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/movie">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="movie" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="study" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0" />
+      <entry key="S5" value="1.0" />
+      <entry key="S10" value="1.0" />
+      <entry key="S30" value="1.0000000000000009" />
+      <entry key="S60" value="1.0000000710853378" />
+      <entry key="M2" value="1.0008926682372432" />
+      <entry key="M5" value="1.2938609904458485" />
+      <entry key="M10" value="3.0817015135127868" />
+      <entry key="M15" value="5.0123204033406035" />
+      <entry key="M30" value="8.749232412941" />
+      <entry key="H1" value="11.778245307993839" />
+      <entry key="H2" value="13.714145389657045" />
+      <entry key="H4" value="14.809596723667392" />
+      <entry key="D1" value="15.794662594326384" />
+      <entry key="W1" value="15.970491541650828" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="6.632903213660023E-5" />
+      <entry key="MS500" value="0.14599592432663971" />
+      <entry key="S2" value="0.6181376304604758" />
+      <entry key="S5" value="0.8249622450062417" />
+      <entry key="S10" value="0.9082743225514204" />
+      <entry key="S30" value="0.9684391671144542" />
+      <entry key="S60" value="0.9840931391248334" />
+      <entry key="M2" value="0.9929060760996943" />
+      <entry key="M5" value="1.2905199961586362" />
+      <entry key="M10" value="3.0796107168367" />
+      <entry key="M15" value="5.010620463931105" />
+      <entry key="M30" value="8.748081413373393" />
+      <entry key="H1" value="11.777545966937662" />
+      <entry key="H2" value="13.713755787674263" />
+      <entry key="H4" value="14.8093905694925" />
+      <entry key="D1" value="15.79462652842439" />
+      <entry key="W1" value="15.97048634578157" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="3LN26hXsLGvxuOGrZWVVG0OcQCm" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.movie 빌드.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "Spring Boot.MovieApplication.executor": "Run",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "week07",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/im-yejin/Desktop/UMC/11th-Mobile/11th-Mobile-BE/JIN-11th-Mobile_BE/study/week07",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="MovieApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <envs>
+        <env name="DB_PASSWORD" value="dpwls1004" />
+        <env name="DB_URL" value="jdbc:mysql://localhost:3306/ucm_movie" />
+        <env name="DB_USER" value="root" />
+        <env name="JWT_SECRET" value="umc-11th-movie-rating-secret-key-please-change-me" />
+        <env name="JWT_ACCESS_EXPIRATION" value="3600" />
+      </envs>
+      <module name="movie.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.umc.movie.MovieApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10968.63" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10968.63" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="c49d0495-aa35-43b2-9f5c-d3b400eb12d8" name="변경" comment="" />
+      <created>1793280032192</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1793280032192</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/movie/src/main/java/com/umc/movie/entity/BaseTimeEntity.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/movie/src/main/java/com/umc/movie/controller/MemberController.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/movie/src/main/java/com/umc/movie/config/WebConfig.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

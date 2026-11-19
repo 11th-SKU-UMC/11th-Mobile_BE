@@ -4,6 +4,7 @@ import com.umc.movie.entity.Member;
 import com.umc.movie.entity.Rating;
 import com.umc.movie.repository.MemberRepository;
 import com.umc.movie.repository.RatingRepository;
+import com.umc.movie.util.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,6 +30,7 @@ class MissionApiIntegrationTests {
     @Autowired MemberRepository members;
     @Autowired RatingRepository ratings;
     @Autowired PasswordEncoder encoder;
+    @Autowired JwtUtil jwtUtil;
 
     @BeforeEach
     void clearDatabase() {
@@ -85,27 +87,29 @@ class MissionApiIntegrationTests {
         postMember("taken@example.com", "Umc!1234", "other")
                 .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("MEMBER4091"));
         postMember("other@example.com", "Umc!1234", "taken")
-                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("MEMBER4092"));
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("MEMBER409_1"));
         assertThat(members.count()).isEqualTo(1);
     }
 
     @Test
-    void ratingLifecycleChecksPersistenceAnd204EmptyBody() throws Exception {
+    void ratingLifecycleChecksPersistenceAnd200Envelope() throws Exception {
         Member owner = member("owner");
-        String base = "/members/" + owner.getMemberId() + "/ratings";
-        mvc.perform(post(base).contentType(MediaType.APPLICATION_JSON)
+        String base = "/ratings";
+        mvc.perform(post(base).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"movieId\":550,\"score\":5,\"comment\":\"좋아요\"}"))
                 .andExpect(status().isCreated()).andExpect(jsonPath("$.code").value("COMMON201"));
         Long ratingId = ratings.findAll().getFirst().getRatingId();
-        mvc.perform(patch(base + "/" + ratingId).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(patch(base + "/" + ratingId).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"score\":3,\"comment\":\"수정한 후기\"}"))
                 .andExpect(status().isOk()).andExpect(jsonPath("$.code").value("COMMON200"));
-        mvc.perform(get(base)).andExpect(status().isOk())
+        mvc.perform(get("/members/{id}/ratings", owner.getMemberId())).andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].score").value(3))
                 .andExpect(jsonPath("$[0].comment").value("수정한 후기"));
-        mvc.perform(delete(base + "/" + ratingId))
-                .andExpect(status().isNoContent()).andExpect(content().string(""));
-        mvc.perform(get(base)).andExpect(status().isOk()).andExpect(content().json("[]"));
+        mvc.perform(delete(base + "/" + ratingId).header("Authorization", token(owner)))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.code").value("COMMON200"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("\"result\":null")));
+        mvc.perform(get("/members/{id}/ratings", owner.getMemberId()))
+                .andExpect(status().isOk()).andExpect(content().json("[]"));
         assertThat(ratings.count()).isZero();
     }
 
@@ -113,10 +117,10 @@ class MissionApiIntegrationTests {
     void duplicateRatingIs409AndNotStoredTwice() throws Exception {
         Member owner = member("owner");
         Rating rating = rating(owner);
-        mvc.perform(post("/members/{id}/ratings", owner.getMemberId())
+        mvc.perform(post("/ratings").header("Authorization", token(owner))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"movieId\":550,\"score\":4}"))
-                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("RATING4091"));
+                .andExpect(status().isConflict()).andExpect(jsonPath("$.code").value("RATING409_1"));
         assertThat(ratings.count()).isEqualTo(1);
         assertThat(ratings.findById(rating.getRatingId()).orElseThrow().getScore()).isEqualTo(5);
     }
@@ -128,7 +132,7 @@ class MissionApiIntegrationTests {
             "{\"movieId\":1.5,\"score\":3}"})
     void invalidRatingInputReturns400(String json) throws Exception {
         Member owner = member("owner");
-        mvc.perform(post("/members/{id}/ratings", owner.getMemberId())
+        mvc.perform(post("/ratings").header("Authorization", token(owner))
                         .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isBadRequest()).andExpect(jsonPath("$.isSuccess").value(false));
         assertThat(ratings.count()).isZero();
@@ -137,12 +141,12 @@ class MissionApiIntegrationTests {
     @Test
     void commentLengthIsCheckedOnCreateAndUpdate() throws Exception {
         Member owner = member("owner");
-        String base = "/members/" + owner.getMemberId() + "/ratings";
-        mvc.perform(post(base).contentType(MediaType.APPLICATION_JSON).content(
+        String base = "/ratings";
+        mvc.perform(post(base).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON).content(
                         "{\"movieId\":550,\"score\":5,\"comment\":\"" + "a".repeat(501) + "\"}"))
                 .andExpect(status().isBadRequest());
         Rating rating = rating(owner);
-        mvc.perform(patch(base + "/" + rating.getRatingId()).contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(patch(base + "/" + rating.getRatingId()).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON)
                         .content("{\"score\":2,\"comment\":\"" + "a".repeat(501) + "\"}"))
                 .andExpect(status().isBadRequest());
         assertThat(ratings.findById(rating.getRatingId()).orElseThrow().getScore()).isEqualTo(5);
@@ -152,10 +156,10 @@ class MissionApiIntegrationTests {
     void patchRequiresScoreAndCanClearComment() throws Exception {
         Member owner = member("owner");
         Rating rating = rating(owner);
-        String path = "/members/" + owner.getMemberId() + "/ratings/" + rating.getRatingId();
-        mvc.perform(patch(path).contentType(MediaType.APPLICATION_JSON).content("{\"comment\":\"only\"}"))
+        String path = "/ratings/" + rating.getRatingId();
+        mvc.perform(patch(path).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON).content("{\"comment\":\"only\"}"))
                 .andExpect(status().isBadRequest());
-        mvc.perform(patch(path).contentType(MediaType.APPLICATION_JSON).content("{\"score\":1}"))
+        mvc.perform(patch(path).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON).content("{\"score\":1}"))
                 .andExpect(status().isOk());
         assertThat(ratings.findById(rating.getRatingId()).orElseThrow().getComment()).isNull();
     }
@@ -165,29 +169,30 @@ class MissionApiIntegrationTests {
         Member owner = member("owner");
         Member other = member("other");
         Rating rating = rating(owner);
-        String path = "/members/" + other.getMemberId() + "/ratings/" + rating.getRatingId();
-        mvc.perform(patch(path).contentType(MediaType.APPLICATION_JSON).content("{\"score\":1}"))
-                .andExpect(status().isForbidden()).andExpect(jsonPath("$.code").value("RATING4031"));
-        mvc.perform(delete(path)).andExpect(status().isForbidden())
-                .andExpect(jsonPath("$.code").value("RATING4031"));
+        String path = "/ratings/" + rating.getRatingId();
+        mvc.perform(patch(path).header("Authorization", token(other)).contentType(MediaType.APPLICATION_JSON).content("{\"score\":1}"))
+                .andExpect(status().isForbidden()).andExpect(jsonPath("$.code").value("RATING403_1"));
+        mvc.perform(delete(path).header("Authorization", token(other))).andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("RATING403_1"));
         assertThat(ratings.findById(rating.getRatingId()).orElseThrow().getScore()).isEqualTo(5);
     }
 
     @Test
     void missingRatingIs404ForBothUpdateAndDelete() throws Exception {
         Member owner = member("owner");
-        String path = "/members/" + owner.getMemberId() + "/ratings/999999";
-        mvc.perform(patch(path).contentType(MediaType.APPLICATION_JSON).content("{\"score\":3}"))
-                .andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("RATING4041"));
-        mvc.perform(delete(path)).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("RATING4041"));
+        String path = "/ratings/999999";
+        mvc.perform(patch(path).header("Authorization", token(owner)).contentType(MediaType.APPLICATION_JSON).content("{\"score\":3}"))
+                .andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("RATING404_1"));
+        mvc.perform(delete(path).header("Authorization", token(owner))).andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("RATING404_1"));
     }
 
     @Test
     void missingMemberIs404() throws Exception {
-        mvc.perform(post("/members/999999/ratings").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(post("/ratings").header("Authorization", "Bearer " + jwtUtil.createAccessToken(999999L, "missing@example.com"))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"movieId\":550,\"score\":3}"))
-                .andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("MEMBER4041"));
+                .andExpect(status().isNotFound()).andExpect(jsonPath("$.code").value("MEMBER404_1"));
         mvc.perform(get("/members/999999/ratings")).andExpect(status().isNotFound());
     }
 
@@ -221,5 +226,9 @@ class MissionApiIntegrationTests {
 
     private Rating rating(Member owner) {
         return ratings.saveAndFlush(new Rating(owner, 550L, 5, "original"));
+    }
+
+    private String token(Member member) {
+        return "Bearer " + jwtUtil.createAccessToken(member.getMemberId(), member.getEmail());
     }
 }

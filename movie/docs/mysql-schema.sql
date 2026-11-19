@@ -24,3 +24,14 @@ CREATE TABLE rating (
     CONSTRAINT ck_rating_movie CHECK (movie_id > 0),
     CONSTRAINT ck_rating_comment CHECK (CHAR_LENGTH(comment) <= 500)
 );
+
+CREATE TABLE favorite (
+    favorite_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    movie_id BIGINT NOT NULL,
+    created_at DATETIME(6) NOT NULL,
+    updated_at DATETIME(6) NOT NULL,
+    CONSTRAINT fk_favorite_member FOREIGN KEY (member_id) REFERENCES member (member_id),
+    CONSTRAINT uk_favorite_member_movie UNIQUE (member_id, movie_id),
+    CONSTRAINT ck_favorite_movie CHECK (movie_id > 0)
+);

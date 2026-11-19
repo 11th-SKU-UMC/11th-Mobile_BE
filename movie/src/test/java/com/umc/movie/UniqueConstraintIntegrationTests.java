@@ -53,7 +53,7 @@ class UniqueConstraintIntegrationTests {
 
     @Test
     void concurrentSignUpsPassingPrechecksStillRejectDuplicateNicknameAtDatabase() throws Exception {
-        race("nickname", "first@example.com", "same", "second@example.com", "same", "MEMBER4092");
+        race("nickname", "first@example.com", "same", "second@example.com", "same", "MEMBER409_1");
     }
 
     @Test
@@ -64,7 +64,7 @@ class UniqueConstraintIntegrationTests {
                 () -> ratings.saveAndFlush(new Rating(member, 550L, 1, "duplicate")));
         var response = handler.handleDataIntegrity(exception);
         assertThat(response.getStatusCode().value()).isEqualTo(409);
-        assertThat(response.getBody().code()).isEqualTo("RATING4091");
+        assertThat(response.getBody().code()).isEqualTo("RATING409_1");
         assertThat(ratings.count()).isEqualTo(1);
     }
 

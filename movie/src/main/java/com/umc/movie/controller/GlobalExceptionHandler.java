@@ -34,6 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 if (name.contains("uk_member_email")) return failure(ErrorCode.DUPLICATE_EMAIL);
                 if (name.contains("uk_member_nickname")) return failure(ErrorCode.DUPLICATE_NICKNAME);
                 if (name.contains("uk_rating_member_movie")) return failure(ErrorCode.DUPLICATE_RATING);
+                if (name.contains("uk_favorite_member_movie")) return failure(ErrorCode.DUPLICATE_FAVORITE);
             }
         }
         return failure(ErrorCode.DATA_CONFLICT);

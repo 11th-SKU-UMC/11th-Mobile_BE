@@ -1,0 +1,46 @@
+Week 09 live HTTP verification — 2026-11-26 13:31:15 +09:00
+Server http://127.0.0.1:18090 (local profile, isolated H2)
+
+GET /swagger-ui/index.html without credentials -> 200
+GET /v3/api-docs/swagger-config without credentials -> 200
+GET /v3/api-docs without credentials -> 200
+GET /v3/api-docs.yaml without credentials -> 200
+
+OpenAPI 3.1.0 — 영화 평점 서비스 API
+POST /ratings [Bearer JWT] 평점 등록
+POST /movie-records [Bearer JWT] 영화 기록 저장
+POST /members [public] 회원가입
+GET /favorites [Bearer JWT] 내 즐겨찾기 조회
+POST /favorites [Bearer JWT] 즐겨찾기 등록
+POST /auth/login [public] 이메일 로그인
+DELETE /ratings/{ratingId} [Bearer JWT] 평점 삭제
+PATCH /ratings/{ratingId} [Bearer JWT] 평점 수정
+GET /members/me [Bearer JWT] 내 정보 조회
+PATCH /members/me [Bearer JWT] 내 정보 수정
+GET /members/{memberId}/ratings [public] 유저별 평점 조회
+GET /members/nickname/{nickname} [public] 닉네임 중복 확인
+GET /members/email/{email} [public] 이메일 중복 확인
+GET /favorites/{movieId} [Bearer JWT] 즐겨찾기 여부 조회
+DELETE /favorites/{movieId} [Bearer JWT] 즐겨찾기 해제
+
+POST /favorites documented examples (application/json)
+201 {"isSuccess":true,"code":"COMMON201","message":"즐겨찾기를 등록했습니다.","result":{"favoriteId":1,"movieId":550,"createdAt":"2026-11-26T13:00:00"}}
+409 {"isSuccess":false,"code":"FAVORITE409_1","message":"이미 이 영화를 즐겨찾기하셨습니다.","result":null}
+
+POST /members -> 201 COMMON201
+POST /auth/login -> 200 COMMON200 (access token omitted)
+
+POST /favorites [no token] {"movieId":550} -> 401
+{"isSuccess":false,"code":"AUTH401_2","message":"로그인이 필요한 요청입니다.","result":null}
+
+POST /favorites [Bearer token] {"movieId":550} -> 201
+{"isSuccess":true,"code":"COMMON201","message":"즐겨찾기를 등록했습니다.","result":{"favoriteId":1,"movieId":550,"createdAt":"2026-11-26T13:31:17.505626"}}
+
+POST /favorites [Bearer token] {"movieId":550} -> 409
+{"isSuccess":false,"code":"FAVORITE409_1","message":"이미 이 영화를 즐겨찾기하셨습니다.","result":null}
+
+POST /ratings [no token] {"movieId":550,"score":5} -> 401
+{"isSuccess":false,"code":"AUTH401_2","message":"로그인이 필요한 요청입니다.","result":null}
+
+POST /ratings [Bearer token] {"movieId":550,"score":5} -> 201
+{"isSuccess":true,"code":"COMMON201","message":"평점 등록에 성공했습니다.","result":{"ratingId":1,"movieId":550,"score":5,"comment":null,"createdAt":"2026-11-26T13:31:17.552834","updatedAt":"2026-11-26T13:31:17.553835"}}

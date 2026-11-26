@@ -1,0 +1,7 @@
+MovieRecordIntegrationTests > existingFavoriteRollsBackAlreadyFlushedRating() FAILED
+org.opentest4j.AssertionFailedError: [즐겨찾기 등록 실패 후 평점 개수]
+expected: 0L
+ but was: 1L
+
+1 failing test(s)
+BUILD FAILED in 26s

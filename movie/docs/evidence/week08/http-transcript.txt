@@ -1,0 +1,253 @@
+8주차 백엔드 | 실제 HTTP 검증
+Spring Boot 4.1.2 / H2 MySQL 호환 모드 / Newman 6.2.1
+HTTP 19개, 응답 검증 67개 통과. 로컬 임시 계정과 JWT는 기록에서 생략.
+
+05 토큰 없이 요청
+POST http://127.0.0.1:18088/favorites
+{
+  "movieId": 550
+}
+HTTP 401 Unauthorized
+{
+  "isSuccess": false,
+  "code": "AUTH401_2",
+  "message": "로그인이 필요한 요청입니다.",
+  "result": null
+}
+
+06 영화 ID 검증
+POST http://127.0.0.1:18088/favorites
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 0
+}
+HTTP 400 Bad Request
+{
+  "isSuccess": false,
+  "code": "COMMON4001",
+  "message": "영화 ID는 양수여야 합니다.",
+  "result": null
+}
+
+07 등록 전 즐겨찾기 여부
+GET http://127.0.0.1:18088/favorites/550
+Authorization: Bearer [로컬 검증 토큰 생략]
+HTTP 200 OK
+{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "즐겨찾기 여부를 조회했습니다.",
+  "result": {
+    "isFavorite": false
+  }
+}
+
+08 즐겨찾기 등록
+POST http://127.0.0.1:18088/favorites
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 550
+}
+HTTP 201 Created
+{
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "즐겨찾기를 등록했습니다.",
+  "result": {
+    "favoriteId": 1,
+    "movieId": 550,
+    "createdAt": "2026-11-19T09:32:58.550245"
+  }
+}
+
+09 중복 등록
+POST http://127.0.0.1:18088/favorites
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 550
+}
+HTTP 409 Conflict
+{
+  "isSuccess": false,
+  "code": "FAVORITE409_1",
+  "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+  "result": null
+}
+
+10 다른 영화 등록
+POST http://127.0.0.1:18088/favorites
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 680
+}
+HTTP 201 Created
+{
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "즐겨찾기를 등록했습니다.",
+  "result": {
+    "favoriteId": 2,
+    "movieId": 680,
+    "createdAt": "2026-11-19T09:32:58.769158"
+  }
+}
+
+11 내 즐겨찾기 목록
+GET http://127.0.0.1:18088/favorites
+Authorization: Bearer [로컬 검증 토큰 생략]
+HTTP 200 OK
+{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "즐겨찾기 목록을 조회했습니다.",
+  "result": [
+    {
+      "favoriteId": 2,
+      "movieId": 680,
+      "createdAt": "2026-11-19T09:32:58.769158"
+    },
+    {
+      "favoriteId": 1,
+      "movieId": 550,
+      "createdAt": "2026-11-19T09:32:58.550245"
+    }
+  ]
+}
+
+12 등록 후 즐겨찾기 여부
+GET http://127.0.0.1:18088/favorites/550
+Authorization: Bearer [로컬 검증 토큰 생략]
+HTTP 200 OK
+{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "즐겨찾기 여부를 조회했습니다.",
+  "result": {
+    "isFavorite": true
+  }
+}
+
+13 회원 B의 빈 목록
+GET http://127.0.0.1:18088/favorites
+Authorization: Bearer [로컬 검증 토큰 생략]
+HTTP 200 OK
+{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "즐겨찾기 목록을 조회했습니다.",
+  "result": []
+}
+
+14 회원 B의 해제 요청
+DELETE http://127.0.0.1:18088/favorites/550
+Authorization: Bearer [로컬 검증 토큰 생략]
+HTTP 404 Not Found
+{
+  "isSuccess": false,
+  "code": "FAVORITE404_1",
+  "message": "즐겨찾기한 영화를 찾을 수 없습니다.",
+  "result": null
+}
+
+15 회원 A의 해제 요청
+DELETE http://127.0.0.1:18088/favorites/550
+Authorization: Bearer [로컬 검증 토큰 생략]
+HTTP 200 OK
+{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "즐겨찾기를 해제했습니다.",
+  "result": null
+}
+
+16 영화 기록 저장
+POST http://127.0.0.1:18088/movie-records
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 238,
+  "score": 5,
+  "comment": "다시 보고 싶은 영화입니다.",
+  "addToFavorites": true
+}
+HTTP 201 Created
+{
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "영화 기록을 저장했습니다.",
+  "result": {
+    "rating": {
+      "ratingId": 1,
+      "movieId": 238,
+      "score": 5,
+      "comment": "다시 보고 싶은 영화입니다.",
+      "createdAt": "2026-11-19T09:32:59.380774",
+      "updatedAt": "2026-11-19T09:32:59.380774"
+    },
+    "favorite": {
+      "favoriteId": 3,
+      "movieId": 238,
+      "createdAt": "2026-11-19T09:32:59.385787"
+    }
+  }
+}
+
+17 평점 중복
+POST http://127.0.0.1:18088/movie-records
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 238,
+  "score": 5,
+  "comment": "다시 보고 싶은 영화입니다.",
+  "addToFavorites": true
+}
+HTTP 409 Conflict
+{
+  "isSuccess": false,
+  "code": "RATING409_1",
+  "message": "이미 이 영화에 평점을 남기셨습니다.",
+  "result": null
+}
+
+18 즐겨찾기 중복으로 영화 기록 실패
+POST http://127.0.0.1:18088/movie-records
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 680,
+  "score": 5,
+  "comment": "다시 보고 싶은 영화입니다.",
+  "addToFavorites": true
+}
+HTTP 409 Conflict
+{
+  "isSuccess": false,
+  "code": "FAVORITE409_1",
+  "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+  "result": null
+}
+
+19 같은 영화에 평점만 재시도
+POST http://127.0.0.1:18088/movie-records
+Authorization: Bearer [로컬 검증 토큰 생략]
+{
+  "movieId": 680,
+  "score": 5,
+  "comment": "다시 보고 싶은 영화입니다.",
+  "addToFavorites": false
+}
+HTTP 201 Created
+{
+  "isSuccess": true,
+  "code": "COMMON201",
+  "message": "영화 기록을 저장했습니다.",
+  "result": {
+    "rating": {
+      "ratingId": 3,
+      "movieId": 680,
+      "score": 5,
+      "comment": "다시 보고 싶은 영화입니다.",
+      "createdAt": "2026-11-19T09:32:59.66722",
+      "updatedAt": "2026-11-19T09:32:59.66722"
+    },
+    "favorite": null
+  }
+}

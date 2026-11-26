@@ -1,0 +1,16 @@
+FavoriteServiceTests > rejectsDuplicateFavoriteWithFavorite409_1WithoutSaving() FAILED
+org.opentest4j.AssertionFailedError: Expected com.umc.movie.exception.ApiException to be thrown, but nothing was thrown.
+
+MovieRecordIntegrationTests > addingDuplicateFavoriteReturns409AndFavorite409_1() FAILED
+org.mockito.exceptions.verification.NeverWantedButInvoked:
+favoriteRepository.saveAndFlush(
+    <any com.umc.movie.entity.Favorite>
+);
+Never wanted here:
+-> at com.umc.movie.MovieRecordIntegrationTests.addingDuplicateFavoriteReturns409AndFavorite409_1(MovieRecordIntegrationTests.java:84)
+But invoked here:
+-> at com.umc.movie.service.FavoriteService.create(FavoriteService.java:30) with arguments: [com.umc.movie.entity.Favorite@3408c95b]
+
+
+2 failing test(s)
+BUILD FAILED in 35s

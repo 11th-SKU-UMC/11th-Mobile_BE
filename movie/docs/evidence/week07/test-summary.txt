@@ -1,0 +1,16 @@
+실행 시작(KST): 2026. 11. 12. 오후 4:13:00
+환경: Spring Boot 4.1.2 / Java 21 toolchain / H2 MySQL mode / JJWT 0.12.6
+빌드: gradlew.bat test bootJar --console=plain — BUILD SUCCESSFUL
+com.umc.movie.AuthIntegrationTests: 24 tests, 0 failures, 0 errors, 0 skipped
+com.umc.movie.MissionApiIntegrationTests: 28 tests, 0 failures, 0 errors, 0 skipped
+com.umc.movie.MovieApplicationTests: 1 tests, 0 failures, 0 errors, 0 skipped
+com.umc.movie.UniqueConstraintIntegrationTests: 3 tests, 0 failures, 0 errors, 0 skipped
+JUnit total: 56, failures: 0, errors: 0, skipped: 0
+Newman 6.2.1: 23 HTTP requests, 75 assertions, 0 failures
+실제 HTTP 실행 시간: 68090 ms
+선택 1: JWT_ACCESS_EXPIRATION=60, JWT_CLOCK_SKEW=0. 동일 토큰으로 200, 62초 대기 후 401/AUTH401_4 확인.
+선택 2: @LoginMember 적용. 내 정보 조회/수정 및 평점 쓰기 API를 통합 테스트와 Newman으로 검증.
+공개 기록의 모든 JWT는 [REDACTED_LOCAL_TEST_JWT]로 제거했습니다. 원본은 Git에서 제외된 build에만 있습니다.
+테스트 전용 계정만 사용하고 실행 시 JWT 서명 키를 무작위 생성했습니다. 키는 저장하지 않습니다.
+제약: 실제 MySQL DB 검증은 수행하지 않았습니다.
+캡처: Postman 데스크톱 앱 미설치. 브라우저 URL 확인 실패로 Computer Use가 중단되어 화면 캡처 4장은 미완료입니다.

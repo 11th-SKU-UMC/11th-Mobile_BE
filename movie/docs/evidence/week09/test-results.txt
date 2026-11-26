@@ -1,0 +1,14 @@
+.\gradlew.bat --offline test bootJar --no-daemon --console=plain
+
+JUnit test suite                     Tests  Failed  Skipped
+AuthIntegrationTests                    26       0        0
+FavoriteServiceTests                     2       0        0
+MissionApiIntegrationTests              28       0        0
+MovieApplicationTests                    1       0        0
+MovieRecordIntegrationTests              9       0        0
+OpenApiIntegrationTests                  3       0        0
+RatingServiceTests                       2       0        0
+UniqueConstraintIntegrationTests         3       0        0
+
+74 tests, 0 failures, 0 skipped
+BUILD SUCCESSFUL in 43s

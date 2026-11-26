@@ -35,7 +35,7 @@ public class RatingService {
     }
 
     @Transactional
-    public Long create(Long memberId, CreateRatingRequest request) {
+    public RatingResponse create(Long memberId, CreateRatingRequest request) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new ApiException(ErrorCode.MEMBER_NOT_FOUND));
         if (ratingRepository.existsByMember_MemberIdAndMovieId(memberId, request.movieId())) {
@@ -43,22 +43,22 @@ public class RatingService {
         }
         Rating rating = Rating.builder().member(member).movieId(request.movieId())
                 .score(request.score()).comment(request.comment()).build();
-        return ratingRepository.saveAndFlush(rating).getRatingId();
+        return RatingResponse.from(ratingRepository.saveAndFlush(rating));
     }
 
     @Transactional
-    public void update(Long ratingId, Long memberId, UpdateRatingRequest request) {
-        Rating rating = findOwnedRating(ratingId, memberId);
+    public RatingResponse update(Long memberId, Long ratingId, UpdateRatingRequest request) {
+        Rating rating = findOwnedRating(memberId, ratingId);
         rating.update(request.score(), request.comment());
-        // 영속 상태 엔티티이므로 트랜잭션 종료 시 변경 감지로 UPDATE 됩니다.
+        return RatingResponse.from(ratingRepository.saveAndFlush(rating));
     }
 
     @Transactional
-    public void delete(Long ratingId, Long memberId) {
-        ratingRepository.delete(findOwnedRating(ratingId, memberId));
+    public void delete(Long memberId, Long ratingId) {
+        ratingRepository.delete(findOwnedRating(memberId, ratingId));
     }
 
-    private Rating findOwnedRating(Long ratingId, Long memberId) {
+    private Rating findOwnedRating(Long memberId, Long ratingId) {
         Rating rating = ratingRepository.findById(ratingId)
                 .orElseThrow(() -> new ApiException(ErrorCode.RATING_NOT_FOUND));
         if (!rating.getMember().getMemberId().equals(memberId)) {

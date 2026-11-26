@@ -5,6 +5,8 @@ import com.umc.movie.dto.EmailCheckResponse;
 import com.umc.movie.dto.NicknameCheckResponse;
 import com.umc.movie.dto.MemberResponse;
 import com.umc.movie.dto.SignUpRequest;
+import com.umc.movie.dto.MemberInfoResponse;
+import com.umc.movie.dto.MemberUpdateRequest;
 import com.umc.movie.entity.Member;
 import com.umc.movie.exception.ApiException;
 import com.umc.movie.exception.ErrorCode;
@@ -48,5 +50,26 @@ public class MemberService {
     public EmailCheckResponse checkEmail(String email) {
         boolean exists = memberRepository.existsByEmail(email);
         return new EmailCheckResponse(!exists);
+    }
+
+    @Transactional(readOnly = true)
+    public MemberInfoResponse getMyInfo(Long memberId) {
+        return MemberInfoResponse.from(findMember(memberId));
+    }
+
+    @Transactional
+    public MemberInfoResponse updateMyInfo(Long memberId, MemberUpdateRequest request) {
+        Member member = findMember(memberId);
+        if (memberRepository.existsByNicknameAndMemberIdNot(request.nickname(), memberId)) {
+            throw new ApiException(ErrorCode.DUPLICATE_NICKNAME);
+        }
+        member.updateNickname(request.nickname());
+        memberRepository.saveAndFlush(member);
+        return MemberInfoResponse.from(member);
+    }
+
+    private Member findMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(ErrorCode.MEMBER_NOT_FOUND));
     }
 }

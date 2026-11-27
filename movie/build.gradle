@@ -17,12 +17,17 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+    // Swagger UI + OpenAPI 문서 자동 생성 (/swagger-ui/index.html, /v3/api-docs)
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompileOnly 'org.projectlombok:lombok'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // 테스트는 MySQL 대신 메모리 DB(H2)로 돌립니다
+    testRuntimeOnly 'com.h2database:h2'
     testAnnotationProcessor 'org.projectlombok:lombok'
 }
 tasks.named('test') { useJUnitPlatform() }

@@ -1,0 +1,18 @@
+# 테스트 전용 설정입니다. src/main/resources/application.yml과 이름이 같아서 테스트 실행 시 이 파일이 대신 쓰입니다.
+# 공개 레포에 올라가므로 진짜 DB 비밀번호나 JWT 시크릿은 절대 적지 않습니다.
+spring:
+  datasource:
+    # MySQL 대신 메모리 DB(H2)를 씁니다. 테스트가 끝나면 데이터가 사라집니다.
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop # 엔티티를 보고 테이블을 새로 만들고 끝나면 지웁니다
+    open-in-view: false
+
+jwt:
+  # 테스트 전용 더미 값입니다. 실제 서버에서 쓰는 시크릿이 아닙니다. (HS256은 32바이트 이상 필요)
+  secret: test-only-dummy-jwt-secret-key-not-for-production-0000
+  access-expiration: 3600

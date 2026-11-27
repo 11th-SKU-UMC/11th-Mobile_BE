@@ -33,7 +33,10 @@ public class WebConfig implements WebMvcConfigurer {
                         "/members/nickname/**",  // 닉네임 중복 체크
                         "/members/email/**",     // 이메일 중복 체크
                         "/members/*/ratings",    // 유저별 평점 조회 (누구나 볼 수 있는 목록)
-                        "/error"                 // 스프링이 내부적으로 쓰는 경로
+                        "/error",                // 스프링이 내부적으로 쓰는 경로
+                        "/swagger-ui.html",      // Swagger UI 진입 주소 (아래 경로로 리다이렉트)
+                        "/swagger-ui/**",        // Swagger UI 화면과 정적 리소스
+                        "/v3/api-docs/**"        // Swagger UI가 읽어가는 OpenAPI 문서(JSON)
                 );
     }
 }
